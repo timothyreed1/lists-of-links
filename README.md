@@ -26,12 +26,12 @@ Add the shortcode `[lists_of_links]` to any page or post to retrieve and expand 
 
 ## Installation
 
-**Option A — Via WordPress Admin**
+**Option A: Via WordPress Admin**
 1. Download `lists-of-links.zip` from github>
 2. In WP Admin go to **Plugins > Add New > Upload Plugin**
 3. Choose the zip file and click **Install Now**
 4. Click **Activate Plugin**
-**Option B — Via FTP or file manager**
+**Option B: Via FTP or file manager**
 1. Unzip `lists-of-links.zip`
 2. Upload the `lists-of-links` folder to `/wp-content/plugins/`
 3. Activate via **WP Admin > Plugins**
