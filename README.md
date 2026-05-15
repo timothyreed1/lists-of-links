@@ -14,15 +14,19 @@ Lists of Links is a WordPress plugin that lets you maintain a database of links 
 
 - Store links with category, title, URL, and a one-line blurb
 - Admin CRUD interface inside WP Admin
-- Configure category heading tag (H1–H6) and list style (ul/ol/dl/p)
+- Configure category heading tag (H1–H6) and list style (ul/ol/dl/p or table)
 - Sort categories and items within categories alphabetically
 - Output inherits all styles from your theme
 - No link cloaking to comply with Amazon Associates ToS
+- Filter links by Category
 - It's private and collects no information about your account, site, links, or anything else aside from the link-related data you input. 
 
 ## Usage
 
-Add the shortcode `[lists_of_links]` to any page or post to retrieve and expand your link data.
+- Add the shortcode `[lists_of_links]` to any page or post to display your links using the heading and list styles configured in Settings.
+- Add `[lists_of_links_table]` to display your links in table format.
+- Add `[lists_of_links_grid]` to display your links in a bordered grid format.
+- All three shortcodes support category filtering. Add `category="value"` where value is a category name in your links data. For example, `[lists_of_links category="Health"]` will display only links in the Health category.
 
 ## Installation
 
