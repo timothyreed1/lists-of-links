@@ -15,25 +15,47 @@ Lists of Links is a WordPress plugin that lets you maintain a database of links 
 - Store links with category, title, URL, and a one-line blurb
 - Admin CRUD interface inside WP Admin
 - Configure category heading tag (H1–H6) and list style (ul/ol/dl/p or table)
-- Sort categories and items within categories alphabetically
+- Sort output by any column — leftmost column sorts first
+- Filter links by category
+- Choose which columns to display
 - Output inherits all styles from your theme
 - No link cloaking to comply with Amazon Associates ToS
-- Filter links by Category
-- It's private and collects no information about your account, site, links, or anything else aside from the link-related data you input. 
+- It's private and collects no information about your account, site, links, or anything else aside from the link-related data you input.
 
 ## Usage
-- Add the shortcode `[lists_of_links]` to any page or post to display your links using the heading and list styles configured in Settings.
-- Add `[lists_of_links_table]` to display your links in table format.
-- Add `[lists_of_links_grid]` to display your links in a bordered grid format.
-- All three shortcodes support category filtering. Add `category="value"` where value is a category name in your links data. For example, `[lists_of_links category="Health"]` will display only links in the Health category.
+
+Add the shortcode `[lists_of_links]` to any page or post to display your links using the heading and list styles configured in Settings.
+
+Add `[lists_of_links_table]` to display your links in table format.
+
+Add `[lists_of_links_grid]` to display your links in a bordered grid format.
+
+All three shortcodes support two optional attributes:
+
+**category** — filters output to a single category. Example: `[lists_of_links category="Health"]`
+
+**columns** — controls which columns are displayed and their order. Accepted values are `category`, `title`, and `description`, as a comma-separated list. The output is sorted by the leftmost column first, then remaining columns in order. Default is `columns="category,title,description"`. Example: `[lists_of_links_grid category="Health" columns="title,description"]` displays only title and description, sorted by title, for links in the Health category.
 
 ## Installation
 
-1. Clone or download this repo
+**Option A: Via WordPress Admin**
+
+1. Download `lists-of-links.zip` from the Releases page on GitHub
+2. In WP Admin go to **Plugins > Add New > Upload Plugin**
+3. Choose the zip file and click **Install Now**
+4. Click **Activate Plugin**
+
+**Option B: Via FTP or file manager**
+
+1. Unzip `lists-of-links.zip`
 2. Upload the `lists-of-links` folder to `/wp-content/plugins/`
-3. Activate via WP Admin > Plugins
-4. In the admin page, open **Lists of Links** to add and manage your links
-5. Open **Lists of Links > Settings** to configure how data is displayed and update link content
+3. Activate via **WP Admin > Plugins**
+
+**After activation**
+
+- Open **Lists of Links** in the admin menu to add and manage your links
+- Open **Lists of Links > Settings** to configure display options
+- Add `[lists_of_links]` to any page or post
 
 ## Frequently Asked Questions
 
@@ -49,10 +71,10 @@ Lists of Links is a WordPress plugin that lets you maintain a database of links 
 
 **Yes. Go to Lists of Links > Settings and choose between bulleted list, numbered list, definition list, or plain paragraphs.**
 
-*Where is page data stored?*
+*Where is my link data stored?*
 
-**Data you enter is stored in a plugin-specific table called `list_of_links` plus whatever table name prefix your site uses. 
+**Data you enter is stored in a plugin-specific table called `lists_of_links` plus whatever table name prefix your site uses.**
 
 *If I remove the plugin, what happens to its data?*
 
-*Removing the plugin from your site will leave the `list_of_links` table behind which you can drop manually*
+**Removing the plugin from your site will leave the `lists_of_links` table behind, which you can drop manually.**
