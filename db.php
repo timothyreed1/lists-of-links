@@ -32,6 +32,12 @@ function listlinks_get_all() {
     return $wpdb->get_results( "SELECT * FROM {$table} ORDER BY category ASC, title ASC" );
 }
 
+function listlinks_get_by_category( $category ) {
+    global $wpdb;
+    $table = listlinks_table_name();
+    return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE category = %s ORDER BY title ASC", $category ) );
+}
+
 function listlinks_get_row( $id ) {
     global $wpdb;
     $table = listlinks_table_name();

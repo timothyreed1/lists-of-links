@@ -19,10 +19,10 @@ function listlinks_handle_edit_post() {
 
     $id   = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
     $data = [
-        'category' => sanitize_text_field( $_POST['category'] ),
-        'title'    => sanitize_text_field( $_POST['title'] ),
-        'url'      => esc_url_raw( $_POST['url'] ),
-        'blurb'    => sanitize_text_field( $_POST['blurb'] ),
+        'category' => sanitize_text_field( wp_unslash( $_POST['category'] ) ),
+        'title'    => sanitize_text_field( wp_unslash( $_POST['title'] ) ),
+        'url'      => esc_url_raw( wp_unslash( $_POST['url'] ) ),
+        'blurb'    => sanitize_text_field( wp_unslash( $_POST['blurb'] ) ),
     ];
 
     if ( $id ) {
@@ -116,24 +116,36 @@ function listlinks_page_list() {
         </a>
         <hr class="wp-header-end">
 
-        <table class="widefat striped">
+        <style>
+            .listlinks-table { table-layout: fixed; width: 100%; }
+            .listlinks-table .col-actions { width: 140px; white-space: nowrap; }
+            .listlinks-table .col-category { width: 120px; }
+            .listlinks-table .col-title { width: 160px; }
+            .listlinks-table .col-blurb { width: 220px; }
+            .listlinks-table .col-url { }
+            .listlinks-table td { word-break: break-all; vertical-align: top; }
+        </style>
+        <table class="widefat striped listlinks-table">
+            <colgroup>
+                <col class="col-actions">
+                <col class="col-category">
+                <col class="col-title">
+                <col class="col-blurb">
+                <col class="col-url">
+            </colgroup>
             <thead>
                 <tr>
+                    <th><?php esc_html_e( 'Actions', 'lists-of-links' ); ?></th>
                     <th><?php esc_html_e( 'Category', 'lists-of-links' ); ?></th>
                     <th><?php esc_html_e( 'Title', 'lists-of-links' ); ?></th>
                     <th><?php esc_html_e( 'Blurb', 'lists-of-links' ); ?></th>
                     <th><?php esc_html_e( 'URL', 'lists-of-links' ); ?></th>
-                    <th><?php esc_html_e( 'Actions', 'lists-of-links' ); ?></th>
                 </tr>
             </thead>
             <tbody>
             <?php if ( $links ) : ?>
                 <?php foreach ( $links as $link ) : ?>
                 <tr>
-                    <td><?php echo esc_html( $link->category ); ?></td>
-                    <td><?php echo esc_html( $link->title ); ?></td>
-                    <td><?php echo esc_html( $link->blurb ); ?></td>
-                    <td><a href="<?php echo esc_url( $link->url ); ?>" target="_blank"><?php echo esc_html( $link->url ); ?></a></td>
                     <td>
                         <a href="<?php echo esc_url( admin_url( 'admin.php?page=lists-of-links-edit&id=' . $link->id ) ); ?>">
                             <?php esc_html_e( 'Edit', 'lists-of-links' ); ?>
@@ -145,6 +157,10 @@ function listlinks_page_list() {
                             <?php esc_html_e( 'Delete', 'lists-of-links' ); ?>
                         </a>
                     </td>
+                    <td><?php echo esc_html( $link->category ); ?></td>
+                    <td><?php echo esc_html( $link->title ); ?></td>
+                    <td><?php echo esc_html( $link->blurb ); ?></td>
+                    <td><a href="<?php echo esc_url( $link->url ); ?>" target="_blank"><?php echo esc_html( $link->url ); ?></a></td>
                 </tr>
                 <?php endforeach; ?>
             <?php else : ?>
