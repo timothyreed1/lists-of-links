@@ -117,14 +117,16 @@ function listlinks_page_list() {
         <hr class="wp-header-end">
 
         <style>
-            .listlinks-table { table-layout: fixed; width: 100%; }
+            .listlinks-table-wrap { overflow-x: auto; width: 100%; }
+            .listlinks-table { table-layout: fixed; min-width: 700px; width: 100%; }
             .listlinks-table .col-actions { width: 140px; white-space: nowrap; }
             .listlinks-table .col-category { width: 120px; }
             .listlinks-table .col-title { width: 160px; }
             .listlinks-table .col-blurb { width: 220px; }
-            .listlinks-table .col-url { }
+            .listlinks-table .col-url { min-width: 160px; }
             .listlinks-table td { word-break: break-all; vertical-align: top; }
         </style>
+        <div class="listlinks-table-wrap">
         <table class="widefat striped listlinks-table">
             <colgroup>
                 <col class="col-actions">
@@ -168,6 +170,7 @@ function listlinks_page_list() {
             <?php endif; ?>
             </tbody>
         </table>
+        </div>
     </div>
     <?php
 }
