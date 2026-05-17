@@ -57,6 +57,10 @@ All three shortcodes support two optional attributes:
 - Open **Lists of Links > Settings** to configure display options
 - Add `[lists_of_links]` to any page or post
 
+## AI Disclosure
+
+Although I designed and tested this software and documentation, I used Claude Code during development. I read and reviewed every line of output. 
+
 ## Frequently Asked Questions
 
 *Is this compatible with Amazon Associates?*
