@@ -30,13 +30,38 @@ function listlinks_parse_columns( $columns_attr ) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Shared helper: check whether a link matches any of the filter tags  */
+/* Whole-word, case-insensitive match against comma-separated tag list */
+/* ------------------------------------------------------------------ */
+
+function listlinks_link_matches_tags( $link, $filter_tags ) {
+    $link_tags = array_map( 'trim', explode( ',', strtolower( $link->tags ) ) );
+    foreach ( $filter_tags as $filter_tag ) {
+        if ( in_array( trim( strtolower( $filter_tag ) ), $link_tags, true ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/* ------------------------------------------------------------------ */
 /* Shared helper: fetch and sort links by column order                 */
 /* ------------------------------------------------------------------ */
 
-function listlinks_get_sorted( $category_filter, $ordered_cols ) {
+function listlinks_get_sorted( $category_filter, $ordered_cols, $tag_filter = '' ) {
     $links = $category_filter
         ? listlinks_get_by_category( $category_filter )
         : listlinks_get_all();
+
+    // Filter by tag(s) when requested (OR matching).
+    if ( $tag_filter !== '' ) {
+        $filter_tags = array_filter( array_map( 'trim', explode( ',', $tag_filter ) ) );
+        if ( ! empty( $filter_tags ) ) {
+            $links = array_values( array_filter( $links, function( $link ) use ( $filter_tags ) {
+                return listlinks_link_matches_tags( $link, $filter_tags );
+            } ) );
+        }
+    }
 
     if ( empty( $links ) ) {
         return [];
@@ -76,7 +101,7 @@ function listlinks_get_sorted( $category_filter, $ordered_cols ) {
 
 function listlinks_shortcode( $atts ) {
     $atts = shortcode_atts(
-        [ 'category' => '', 'columns' => 'category,title,description' ],
+        [ 'category' => '', 'columns' => 'category,title,description', 'tag' => '' ],
         $atts,
         'lists_of_links'
     );
@@ -85,7 +110,8 @@ function listlinks_shortcode( $atts ) {
     $show            = $parsed['show'];
     $ordered         = $parsed['ordered'];
     $category_filter = sanitize_text_field( $atts['category'] );
-    $links           = listlinks_get_sorted( $category_filter, $ordered );
+    $tag_filter      = sanitize_text_field( $atts['tag'] );
+    $links           = listlinks_get_sorted( $category_filter, $ordered, $tag_filter );
 
     if ( empty( $links ) ) {
         return '';
@@ -214,13 +240,13 @@ function listlinks_render_table( $links, $show, $ordered, $table_style, $th_styl
 
 function listlinks_table_shortcode( $atts ) {
     $atts = shortcode_atts(
-        [ 'category' => '', 'columns' => 'category,title,description' ],
+        [ 'category' => '', 'columns' => 'category,title,description', 'tag' => '' ],
         $atts,
         'lists_of_links_table'
     );
 
     $parsed  = listlinks_parse_columns( $atts['columns'] );
-    $links   = listlinks_get_sorted( sanitize_text_field( $atts['category'] ), $parsed['ordered'] );
+    $links   = listlinks_get_sorted( sanitize_text_field( $atts['category'] ), $parsed['ordered'], sanitize_text_field( $atts['tag'] ) );
 
     if ( empty( $links ) ) {
         return '';
@@ -236,13 +262,13 @@ function listlinks_table_shortcode( $atts ) {
 
 function listlinks_grid_shortcode( $atts ) {
     $atts = shortcode_atts(
-        [ 'category' => '', 'columns' => 'category,title,description' ],
+        [ 'category' => '', 'columns' => 'category,title,description', 'tag' => '' ],
         $atts,
         'lists_of_links_grid'
     );
 
     $parsed      = listlinks_parse_columns( $atts['columns'] );
-    $links       = listlinks_get_sorted( sanitize_text_field( $atts['category'] ), $parsed['ordered'] );
+    $links       = listlinks_get_sorted( sanitize_text_field( $atts['category'] ), $parsed['ordered'], sanitize_text_field( $atts['tag'] ) );
 
     if ( empty( $links ) ) {
         return '';

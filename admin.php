@@ -23,6 +23,7 @@ function listlinks_handle_edit_post() {
         'title'    => sanitize_text_field( wp_unslash( $_POST['title'] ) ),
         'url'      => esc_url_raw( wp_unslash( $_POST['url'] ) ),
         'blurb'    => sanitize_text_field( wp_unslash( $_POST['blurb'] ) ),
+        'tags'     => sanitize_text_field( wp_unslash( $_POST['tags'] ?? '' ) ),
     ];
 
     if ( $id ) {
@@ -118,11 +119,12 @@ function listlinks_page_list() {
 
         <style>
             .listlinks-table-wrap { overflow-x: auto; width: 100%; }
-            .listlinks-table { table-layout: fixed; min-width: 700px; width: 100%; }
+            .listlinks-table { table-layout: fixed; min-width: 860px; width: 100%; }
             .listlinks-table .col-actions { width: 140px; white-space: nowrap; }
             .listlinks-table .col-category { width: 120px; }
             .listlinks-table .col-title { width: 160px; }
-            .listlinks-table .col-blurb { width: 220px; }
+            .listlinks-table .col-blurb { width: 200px; }
+            .listlinks-table .col-tags { width: 140px; }
             .listlinks-table .col-url { min-width: 160px; }
             .listlinks-table td { word-break: break-all; vertical-align: top; }
         </style>
@@ -133,6 +135,7 @@ function listlinks_page_list() {
                 <col class="col-category">
                 <col class="col-title">
                 <col class="col-blurb">
+                <col class="col-tags">
                 <col class="col-url">
             </colgroup>
             <thead>
@@ -141,6 +144,7 @@ function listlinks_page_list() {
                     <th><?php esc_html_e( 'Category', 'lists-of-links' ); ?></th>
                     <th><?php esc_html_e( 'Title', 'lists-of-links' ); ?></th>
                     <th><?php esc_html_e( 'Blurb', 'lists-of-links' ); ?></th>
+                    <th><?php esc_html_e( 'Tags', 'lists-of-links' ); ?></th>
                     <th><?php esc_html_e( 'URL', 'lists-of-links' ); ?></th>
                 </tr>
             </thead>
@@ -162,11 +166,12 @@ function listlinks_page_list() {
                     <td><?php echo esc_html( $link->category ); ?></td>
                     <td><?php echo esc_html( $link->title ); ?></td>
                     <td><?php echo esc_html( $link->blurb ); ?></td>
+                    <td><?php echo esc_html( $link->tags ); ?></td>
                     <td><a href="<?php echo esc_url( $link->url ); ?>" target="_blank"><?php echo esc_html( $link->url ); ?></a></td>
                 </tr>
                 <?php endforeach; ?>
             <?php else : ?>
-                <tr><td colspan="5"><?php esc_html_e( 'No links found. Add one above.', 'lists-of-links' ); ?></td></tr>
+                <tr><td colspan="6"><?php esc_html_e( 'No links found. Add one above.', 'lists-of-links' ); ?></td></tr>
             <?php endif; ?>
             </tbody>
         </table>
@@ -188,6 +193,7 @@ function listlinks_page_edit() {
     $title    = $link ? $link->title    : '';
     $url      = $link ? $link->url      : '';
     $blurb    = $link ? $link->blurb    : '';
+    $tags     = $link ? $link->tags     : '';
 
     // Find prev/next links in the same sorted order as the list page.
     $prev_id = null;
@@ -229,6 +235,13 @@ function listlinks_page_edit() {
                 <tr>
                     <th><label for="blurb"><?php esc_html_e( 'Blurb', 'lists-of-links' ); ?></label></th>
                     <td><input type="text" id="blurb" name="blurb" value="<?php echo esc_attr( $blurb ); ?>" class="large-text" required></td>
+                </tr>
+                <tr>
+                    <th><label for="tags"><?php esc_html_e( 'Tags', 'lists-of-links' ); ?></label></th>
+                    <td>
+                        <input type="text" id="tags" name="tags" value="<?php echo esc_attr( $tags ); ?>" class="regular-text">
+                        <p class="description"><?php esc_html_e( 'Comma-separated. Example: health, fitness, diet', 'lists-of-links' ); ?></p>
+                    </td>
                 </tr>
             </table>
             <p class="submit">

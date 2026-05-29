@@ -19,6 +19,7 @@ function listlinks_create_table() {
         title     VARCHAR(255)        NOT NULL DEFAULT '',
         url       TEXT                NOT NULL,
         blurb     TEXT                NOT NULL,
+        tags      VARCHAR(255)        NOT NULL DEFAULT '',
         PRIMARY KEY (id)
     ) {$charset};";
 
@@ -46,13 +47,13 @@ function listlinks_get_row( $id ) {
 
 function listlinks_insert( $data ) {
     global $wpdb;
-    $wpdb->insert( listlinks_table_name(), $data, [ '%s', '%s', '%s', '%s' ] );
+    $wpdb->insert( listlinks_table_name(), $data, [ '%s', '%s', '%s', '%s', '%s' ] );
     return $wpdb->insert_id;
 }
 
 function listlinks_update( $id, $data ) {
     global $wpdb;
-    $wpdb->update( listlinks_table_name(), $data, [ 'id' => $id ], [ '%s', '%s', '%s', '%s' ], [ '%d' ] );
+    $wpdb->update( listlinks_table_name(), $data, [ 'id' => $id ], [ '%s', '%s', '%s', '%s', '%s' ], [ '%d' ] );
 }
 
 function listlinks_delete( $id ) {

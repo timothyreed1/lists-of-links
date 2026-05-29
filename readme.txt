@@ -12,7 +12,7 @@ Lists of Links is a WordPress plugin that lets you maintain a database of links 
 
 ## Features
 
-- Store links with category, title, URL, and a one-line blurb
+- Store links with category, title, URL, a one-line blurb, and tags
 - Admin CRUD interface inside WP Admin
 - Configure category heading tag (H1–H6) and list style (ul/ol/dl/p or table)
 - Sort output by any column — leftmost column sorts first
@@ -30,9 +30,11 @@ Add `[lists_of_links_table]` to display your links in table format.
 
 Add `[lists_of_links_grid]` to display your links in a bordered grid format.
 
-All three shortcodes support two optional attributes:
+All three shortcodes support these optional attributes:
 
 **category** — filters output to a single category. Example: `[lists_of_links category="Health"]`
+
+**tag** — filters output to links that have at least one of the specified tags (OR matching). Accepts one or more comma-separated tag words. Tags are matched whole-word and case-insensitively. Example: `[lists_of_links tag="fitness"]` or `[lists_of_links tag="health,fitness"]`. Tags are never shown in shortcode output.
 
 **columns** — controls which columns are displayed and their order. Accepted values are `category`, `title`, and `description`, as a comma-separated list. The output is sorted by the leftmost column first, then remaining columns in order. Default is `columns="category,title,description"`. Example: `[lists_of_links_grid category="Health" columns="title,description"]` displays only title and description, sorted by title, for links in the Health category.
 
