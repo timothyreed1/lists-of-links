@@ -101,7 +101,7 @@ function listlinks_get_sorted( $category_filter, $ordered_cols, $tag_filter = ''
 
 function listlinks_shortcode( $atts ) {
     $atts = shortcode_atts(
-        [ 'category' => '', 'columns' => 'category,title,description', 'tag' => '' ],
+        [ 'category' => '', 'columns' => 'category,title,description', 'tags' => '' ],
         $atts,
         'lists_of_links'
     );
@@ -110,7 +110,7 @@ function listlinks_shortcode( $atts ) {
     $show            = $parsed['show'];
     $ordered         = $parsed['ordered'];
     $category_filter = sanitize_text_field( $atts['category'] );
-    $tag_filter      = sanitize_text_field( $atts['tag'] );
+    $tag_filter      = sanitize_text_field( $atts['tags'] );
     $links           = listlinks_get_sorted( $category_filter, $ordered, $tag_filter );
 
     if ( empty( $links ) ) {
@@ -240,13 +240,13 @@ function listlinks_render_table( $links, $show, $ordered, $table_style, $th_styl
 
 function listlinks_table_shortcode( $atts ) {
     $atts = shortcode_atts(
-        [ 'category' => '', 'columns' => 'category,title,description', 'tag' => '' ],
+        [ 'category' => '', 'columns' => 'category,title,description', 'tags' => '' ],
         $atts,
         'lists_of_links_table'
     );
 
     $parsed  = listlinks_parse_columns( $atts['columns'] );
-    $links   = listlinks_get_sorted( sanitize_text_field( $atts['category'] ), $parsed['ordered'], sanitize_text_field( $atts['tag'] ) );
+    $links   = listlinks_get_sorted( sanitize_text_field( $atts['category'] ), $parsed['ordered'], sanitize_text_field( $atts['tags'] ) );
 
     if ( empty( $links ) ) {
         return '';
@@ -262,13 +262,13 @@ function listlinks_table_shortcode( $atts ) {
 
 function listlinks_grid_shortcode( $atts ) {
     $atts = shortcode_atts(
-        [ 'category' => '', 'columns' => 'category,title,description', 'tag' => '' ],
+        [ 'category' => '', 'columns' => 'category,title,description', 'tags' => '' ],
         $atts,
         'lists_of_links_grid'
     );
 
     $parsed      = listlinks_parse_columns( $atts['columns'] );
-    $links       = listlinks_get_sorted( sanitize_text_field( $atts['category'] ), $parsed['ordered'], sanitize_text_field( $atts['tag'] ) );
+    $links       = listlinks_get_sorted( sanitize_text_field( $atts['category'] ), $parsed['ordered'], sanitize_text_field( $atts['tags'] ) );
 
     if ( empty( $links ) ) {
         return '';

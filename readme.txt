@@ -34,7 +34,7 @@ All three shortcodes support these optional attributes:
 
 **category** — filters output to a single category. Example: `[lists_of_links category="Health"]`
 
-**tag** — filters output to links that have at least one of the specified tags (OR matching). Accepts one or more comma-separated tag words. Tags are matched whole-word and case-insensitively. Example: `[lists_of_links tag="fitness"]` or `[lists_of_links tag="health,fitness"]`. Tags are never shown in shortcode output.
+**tags** — filters output to links that have at least one of the specified tags (OR matching). Accepts one or more comma-separated tag words. Tags are matched whole-word and case-insensitively. Example: `[lists_of_links tags="fitness"]` or `[lists_of_links tags="health,fitness"]`. Tags are never shown in shortcode output.
 
 **columns** — controls which columns are displayed and their order. Accepted values are `category`, `title`, and `description`, as a comma-separated list. The output is sorted by the leftmost column first, then remaining columns in order. Default is `columns="category,title,description"`. Example: `[lists_of_links_grid category="Health" columns="title,description"]` displays only title and description, sorted by title, for links in the Health category.
 
