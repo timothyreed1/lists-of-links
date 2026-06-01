@@ -16,8 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'LISTLINKS_VERSION', '1.2.0' );
-define( 'LISTLINKS_TABLE', 'lists_of_links' );
+define( 'LISTLINKS_VERSION',    '1.2.0' );
+define( 'LISTLINKS_DB_VERSION', 2 );
+define( 'LISTLINKS_TABLE',      'lists_of_links' );
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/db.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/admin.php';
@@ -25,12 +26,12 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/shortcode.php';
 
 register_activation_hook( __FILE__, 'listlinks_create_table' );
 
-// Run schema upgrades when the plugin version changes.
+// Run schema upgrades whenever the db schema version changes.
 add_action( 'plugins_loaded', 'listlinks_upgrade' );
 
 function listlinks_upgrade() {
-    if ( get_option( 'listlinks_version' ) !== LISTLINKS_VERSION ) {
+    if ( (int) get_option( 'listlinks_db_version', 0 ) !== LISTLINKS_DB_VERSION ) {
         listlinks_create_table();
-        update_option( 'listlinks_version', LISTLINKS_VERSION );
+        update_option( 'listlinks_db_version', LISTLINKS_DB_VERSION );
     }
 }
