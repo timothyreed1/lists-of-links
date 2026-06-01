@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'LISTLINKS_VERSION',    '1.2.0' );
-define( 'LISTLINKS_DB_VERSION', 2 );
+define( 'LISTLINKS_DB_VERSION', 3 );
 define( 'LISTLINKS_TABLE',      'lists_of_links' );
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/db.php';
@@ -32,6 +32,22 @@ add_action( 'plugins_loaded', 'listlinks_upgrade' );
 function listlinks_upgrade() {
     if ( (int) get_option( 'listlinks_db_version', 0 ) !== LISTLINKS_DB_VERSION ) {
         listlinks_create_table();
+        listlinks_apply_migrations();
         update_option( 'listlinks_db_version', LISTLINKS_DB_VERSION );
+    }
+}
+
+function listlinks_apply_migrations() {
+    global $wpdb;
+    $table = listlinks_table_name();
+
+    // v2: add tags column if dbDelta did not add it.
+    $col = $wpdb->get_var( $wpdb->prepare(
+        "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = 'tags'",
+        DB_NAME,
+        $table
+    ) );
+    if ( ! $col ) {
+        $wpdb->query( "ALTER TABLE `{$table}` ADD COLUMN `tags` VARCHAR(255) NOT NULL DEFAULT ''" );
     }
 }
