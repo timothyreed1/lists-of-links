@@ -292,11 +292,14 @@ function listlinks_page_settings() {
     ) {
         update_option( 'listlinks_category_tag', sanitize_text_field( $_POST['category_tag'] ) );
         update_option( 'listlinks_item_style',   sanitize_text_field( $_POST['item_style'] ) );
+        $raw_paths = isset( $_POST['noindex_paths'] ) ? wp_unslash( $_POST['noindex_paths'] ) : '';
+        update_option( 'listlinks_noindex_paths', sanitize_textarea_field( $raw_paths ) );
         echo '<div class="notice notice-success"><p>' . esc_html__( 'Settings saved.', 'lists-of-links' ) . '</p></div>';
     }
 
     $category_tag = get_option( 'listlinks_category_tag', 'h2' );
     $item_style   = get_option( 'listlinks_item_style',   'ul' );
+    $noindex_paths = get_option( 'listlinks_noindex_paths', '' );
 
     $heading_options = [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ];
     $list_options    = [
@@ -335,6 +338,13 @@ function listlinks_page_settings() {
                             <?php endforeach; ?>
                         </select>
                         <p class="description"><?php esc_html_e( 'Default: Bulleted list', 'lists-of-links' ); ?></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="noindex_paths"><?php esc_html_e( 'Noindex paths', 'lists-of-links' ); ?></label></th>
+                    <td>
+                        <textarea id="noindex_paths" name="noindex_paths" rows="4" class="large-text"><?php echo esc_textarea( $noindex_paths ); ?></textarea>
+                        <p class="description"><?php esc_html_e( 'One path per line. Pages whose URL starts with any of these paths will get a noindex,nofollow meta tag. Example: /links', 'lists-of-links' ); ?></p>
                     </td>
                 </tr>
             </table>

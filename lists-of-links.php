@@ -26,6 +26,22 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/shortcode.php';
 
 register_activation_hook( __FILE__, 'listlinks_create_table' );
 
+add_action( 'wp_head', 'listlinks_maybe_noindex' );
+
+function listlinks_maybe_noindex() {
+    $raw = get_option( 'listlinks_noindex_paths', '' );
+    if ( ! $raw ) {
+        return;
+    }
+    $request_path = '/' . ltrim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    foreach ( array_filter( array_map( 'trim', explode( "\n", $raw ) ) ) as $path ) {
+        if ( strpos( $request_path, $path ) === 0 ) {
+            echo '<meta name="robots" content="noindex,nofollow">' . "\n";
+            return;
+        }
+    }
+}
+
 // Run schema upgrades whenever the db schema version changes.
 add_action( 'plugins_loaded', 'listlinks_upgrade' );
 
