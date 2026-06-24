@@ -3,7 +3,7 @@
  * Plugin Name: Lists of Links
  * Plugin URI:  https://github.com/timothyreed1/lists-of-links
  * Description: Manage and display links grouped by category with a shortcode.
- * Version:     1.2.0
+ * Version:     1.2.1
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author:      Tim Reed
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'LISTLINKS_VERSION',    '1.2.0' );
+define( 'LISTLINKS_VERSION',    '1.2.1' );
 define( 'LISTLINKS_DB_VERSION', 3 );
 define( 'LISTLINKS_TABLE',      'lists_of_links' );
 
