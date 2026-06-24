@@ -33,7 +33,9 @@ function listlinks_maybe_noindex() {
     if ( ! $raw ) {
         return;
     }
-    $request_path = '/' . ltrim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    $raw_uri      = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '/';
+    $parsed_path  = parse_url( $raw_uri, PHP_URL_PATH );
+    $request_path = '/' . ltrim( $parsed_path ?? '/', '/' );
     foreach ( array_filter( array_map( 'trim', explode( "\n", $raw ) ) ) as $path ) {
         if ( strpos( $request_path, $path ) === 0 ) {
             echo '<meta name="robots" content="noindex,nofollow">' . "\n";

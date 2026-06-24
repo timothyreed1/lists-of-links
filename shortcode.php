@@ -199,16 +199,16 @@ function listlinks_shortcode( $atts ) {
 function listlinks_render_table( $links, $show, $ordered, $table_style, $th_style, $td_style ) {
     ob_start();
 
-    echo '<table' . ( $table_style ? ' style="' . $table_style . '"' : '' ) . ">\n";
+    echo '<table' . ( $table_style ? ' style="' . esc_attr( $table_style ) . '"' : '' ) . ">\n";
     echo "<thead>\n<tr>";
 
     foreach ( $ordered as $col ) {
         if ( 'category' === $col ) {
-            echo '<th style="' . $th_style . '">' . esc_html__( 'Category',    'lists-of-links' ) . '</th>';
+            echo '<th style="' . esc_attr( $th_style ) . '">' . esc_html__( 'Category',    'lists-of-links' ) . '</th>';
         } elseif ( 'title' === $col ) {
-            echo '<th style="' . $th_style . '">' . esc_html__( 'Title',       'lists-of-links' ) . '</th>';
+            echo '<th style="' . esc_attr( $th_style ) . '">' . esc_html__( 'Title',       'lists-of-links' ) . '</th>';
         } elseif ( 'description' === $col ) {
-            echo '<th style="' . $th_style . '">' . esc_html__( 'Description', 'lists-of-links' ) . '</th>';
+            echo '<th style="' . esc_attr( $th_style ) . '">' . esc_html__( 'Description', 'lists-of-links' ) . '</th>';
         }
     }
 
@@ -218,11 +218,11 @@ function listlinks_render_table( $links, $show, $ordered, $table_style, $th_styl
         echo '<tr>';
         foreach ( $ordered as $col ) {
             if ( 'category' === $col ) {
-                echo '<td style="' . $td_style . '">' . esc_html( $item->category ) . '</td>';
+                echo '<td style="' . esc_attr( $td_style ) . '">' . esc_html( $item->category ) . '</td>';
             } elseif ( 'title' === $col ) {
-                echo '<td style="' . $td_style . '"><a href="' . esc_url( $item->url ) . '">' . esc_html( $item->title ) . '</a></td>';
+                echo '<td style="' . esc_attr( $td_style ) . '"><a href="' . esc_url( $item->url ) . '">' . esc_html( $item->title ) . '</a></td>';
             } elseif ( 'description' === $col ) {
-                echo '<td style="' . $td_style . '">' . esc_html( $item->blurb ) . '</td>';
+                echo '<td style="' . esc_attr( $td_style ) . '">' . esc_html( $item->blurb ) . '</td>';
             }
         }
         echo "</tr>\n";

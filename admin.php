@@ -52,7 +52,7 @@ function listlinks_handle_edit_post() {
     if ( $redirect_id === $id ) {
         $url = add_query_arg( 'saved', '1', $url );
     }
-    wp_redirect( $url );
+    wp_safe_redirect( $url );
     exit;
 }
 
